@@ -1,0 +1,45 @@
+<launch>
+
+  <!-- <node name="lock" pkg="physarum_simulation" type="lock_server.py" output="screen">
+  </node> -->
+
+  <node name="coleta1" pkg="physarum_simulation" type="coleta_manager.py" output="screen">
+    <param name="robot_name" value="robot_0" />
+  </node>
+
+  <node name="controller_execucao" pkg="physarum_simulation" type="controller_execucao.py" output="screen">
+    <param name="robot_name" value="robot_0" />
+    <param name="origem" value="[-7, -6]"  type="yaml" />
+  </node>
+
+  <node name="task" pkg="physarum_simulation" type="task_manager.py" output="screen">
+    <param name="robot_name" value="robot_0" />
+  </node>
+
+  <node name="coleta2" pkg="physarum_simulation" type="coleta_manager.py" output="screen">
+    <param name="robot_name" value="robot_1" />
+  </node>
+
+  <node name="controller_execucao1" pkg="physarum_simulation" type="controller_execucao.py" output="screen">
+    <param name="robot_name" value="robot_1" />
+    <param name="origem" value="[-7, -4.5]"   type="yaml"/>
+  </node>
+
+  <node name="task1" pkg="physarum_simulation" type="task_manager.py" output="screen">
+    <param name="robot_name" value="robot_1" />
+  </node>
+
+  <node name="coleta3" pkg="physarum_simulation" type="coleta_manager.py" output="screen">
+    <param name="robot_name" value="robot_2" />
+  </node>
+  <node name="controller_execucao2" pkg="physarum_simulation" type="controller_execucao.py" output="screen">
+    <param name="robot_name" value="robot_2" />
+    <param name="origem" value="[-7, -3]"   type="yaml"/>
+  </node>
+
+  <node name="task2" pkg="physarum_simulation" type="task_manager.py" output="screen">
+    <param name="robot_name" value="robot_2" />
+  </node>
+
+  
+</launch>

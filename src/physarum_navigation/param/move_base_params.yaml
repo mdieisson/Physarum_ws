@@ -1,0 +1,17 @@
+base_global_planner: "global_planner/GlobalPlanner"
+base_local_planner: "dwa_local_planner/DWAPlannerROS"
+shutdown_costmaps: false
+controller_frequency: 10.0          # frequência do controlador local (Hz)
+planner_patience: 3.0              # tempo máximo esperando o global planner (s)
+controller_patience: 2.0           # tempo máximo esperando o local planner (s)
+conservative_reset_dist: 1.0        # distância para resetar obstáculos distantes (m)
+planner_frequency: 10.0              # frequência do global planner (Hz)
+oscillation_timeout: 1.0           # tempo para resetar comportamento de oscilação (s)
+oscillation_distance: 0.2           # distância para sair do estado de oscilação (m)
+recovery_behavior_enabled: true     # permite comportamentos de recuperação (giro, recuo)
+clearing_rotation_allowed: true     # permite rotações para limpar obstáculos
+
+# Configuração do GlobalPlanner
+#GlobalPlanner:
+  #use_dijkstra: false       # Desativa Dijkstra
+  #use_astar: true           # Ativa A*

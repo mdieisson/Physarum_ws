@@ -1,0 +1,93 @@
+include "include/map.inc"
+include "include/robots.inc"
+include "include/sensors.inc"
+
+
+floorplan (name "robopark" size [16.000 16.000 0.800] pose [0 0 0 0] bitmap "porto.png" ) 
+
+# throw in a robot
+caminhao (name "r0" pose [ -7.5 -6 0 90 ]   laser(pose [ 0.0 0 0.1 0 ]) color "red")
+
+include "include/map.inc"
+include "include/robots.inc"
+include "include/sensors.inc"
+
+
+floorplan (name "robopark" size [16.000 16.000 0.800] pose [0 0 0 0] bitmap "porto.png" ) 
+
+# throw in a robot
+caminhao (name "r0" pose [ -7.5 -6 0 90 ]   laser(pose [ 0.0 0 0.1 0 ]) color "red")
+
+caminhao (name "r1" pose [ -7.5 -4.5 0 90 ]   laser(pose [ 0.0 0 0.1 0 ]) color "blue")
+
+caminhao (name "r2" pose [ -7.5 -3 0 90 ]   laser(pose [ 0.0 0 0.1 0 ]) color "green")
+
+# Camada 0 (base)
+caixa( pose [-5.34 5.94 0.0 0] name "caixa_0_0" )
+caixa( pose [-4.59 5.94 0.0 0] name "caixa_0_1" )
+caixa( pose [-3.84 5.94 0.0 0] name "caixa_0_2" )
+caixa( pose [-3.09 5.94 0.0 0] name "caixa_0_3" )
+caixa( pose [-2.34 5.94 0.0 0] name "caixa_0_4" )
+caixa( pose [-1.59 5.94 0.0 0] name "caixa_0_5" )
+caixa( pose [-0.84 5.94 0.0 0] name "caixa_0_6" )
+caixa( pose [-0.09 5.94 0.0 0] name "caixa_0_7" )
+caixa( pose [0.66 5.94 0.0 0] name "caixa_0_8" )
+caixa( pose [1.41 5.94 0.0 0] name "caixa_0_9" )
+caixa( pose [2.16 5.94 0.0 0] name "caixa_0_10" )
+caixa( pose [2.91 5.94 0.0 0] name "caixa_0_11" )
+caixa( pose [3.66 5.94 0.0 0] name "caixa_0_12" )
+caixa( pose [4.41 5.94 0.0 0] name "caixa_0_13" )
+
+# Camada 1
+caixa( pose [-5.34 6.24 0.0 0] name "caixa_1_0" )
+caixa( pose [-4.59 6.24 0.0 0] name "caixa_1_1" )
+caixa( pose [-3.84 6.24 0.0 0] name "caixa_1_2" )
+caixa( pose [-3.09 6.24 0.0 0] name "caixa_1_3" )
+caixa( pose [-2.34 6.24 0.0 0] name "caixa_1_4" )
+caixa( pose [-1.59 6.24 0.0 0] name "caixa_1_5" )
+caixa( pose [-0.84 6.24 0.0 0] name "caixa_1_6" )
+caixa( pose [-0.09 6.24 0.0 0] name "caixa_1_7" )
+caixa( pose [0.66 6.24 0.0 0] name "caixa_1_8" )
+caixa( pose [1.41 6.24 0.0 0] name "caixa_1_9" )
+caixa( pose [2.16 6.24 0.0 0] name "caixa_1_10" )
+caixa( pose [2.91 6.24 0.0 0] name "caixa_1_11" )
+caixa( pose [3.66 6.24 0.0 0] name "caixa_1_12" )
+caixa( pose [4.41 6.24 0.0 0] name "caixa_1_13" )
+
+# Camada 2
+caixa( pose [-5.34 6.54 0.0 0] name "caixa_2_0" )
+caixa( pose [-4.59 6.54 0.0 0] name "caixa_2_1" )
+caixa( pose [-3.84 6.54 0.0 0] name "caixa_2_2" )
+caixa( pose [-3.09 6.54 0.0 0]  name "caixa_2_3" )
+caixa( pose [-2.34 6.54 0.0 0] name "caixa_2_4" )
+caixa( pose [-1.59 6.54 0.0 0] name "caixa_2_5" )
+caixa( pose [-0.84 6.54 0.0 0] name "caixa_2_6" )
+caixa( pose [-0.09 6.54 0.0 0] name "caixa_2_7" )
+caixa( pose [0.66 6.54 0.0 0] name "caixa_2_8" )
+caixa( pose [1.41 6.54 0.0 0] name "caixa_2_9" )
+caixa( pose [2.16 6.54 0.0 0] name "caixa_2_10" )
+caixa( pose [2.91 6.54 0.0 0] name "caixa_2_11" )
+caixa( pose [3.66 6.54 0.0 0] name "caixa_2_12" )
+caixa( pose [4.41 6.54 0.0 0] name "caixa_2_13" )
+
+# Camada 3
+caixa( pose [-5.34 6.84 0.0 0] name "caixa_3_0" )
+caixa( pose [-4.59 6.84 0.0 0] name "caixa_3_1" )
+caixa( pose [-3.84 6.84 0.0 0] name "caixa_3_2" )
+caixa( pose [-3.09 6.84 0.0 0] name "caixa_3_3" )
+caixa( pose [-2.34 6.84 0.0 0] name "caixa_3_4" )
+caixa( pose [-1.59 6.84 0.0 0] name "caixa_3_5" )
+caixa( pose [-0.84 6.84 0.0 0] name "caixa_3_6" )
+caixa( pose [-0.09 6.84 0.0 0] name "caixa_3_7" )
+caixa( pose [0.66 6.84 0.0 0] name "caixa_3_8" )
+caixa( pose [1.41 6.84 0.0 0] name "caixa_3_9" )
+caixa( pose [2.16 6.84 0.0 0] name "caixa_3_10" )
+caixa( pose [2.91 6.84 0.0 0] name "caixa_3_11" )
+caixa( pose [3.66 6.84 0.0 0] name "caixa_3_12" )
+caixa( pose [4.41 6.84 0.0 0] name "caixa_3_13" )
+
+
+
+
+
+

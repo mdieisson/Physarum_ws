@@ -1,0 +1,73 @@
+local_costmap:
+  global_frame: odom
+  robot_base_frame: base_footprint
+
+  update_frequency: 10.0           # atualiza o mapa local 8 Hz (estável)
+  publish_frequency: 10.0          # publica para RViz/planner a 4 Hz
+  #transform_tolerance: 0.5
+
+  static_map: false
+  rolling_window: true
+  width: 3                      # área do costmap local (10x10m)
+  height: 3
+  resolution: 0.05                # resolução (7cm por célula)
+  plugins:
+    - {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
+    - {name: inflation_layer, type: "costmap_2d::InflationLayer"}
+
+
+  obstacle_layer:
+    observation_sources: laser_scan_sensor
+    laser_scan_sensor:
+      topic: base_scan
+      sensor_frame: base_laser_link
+      data_type: LaserScan
+      marking: true
+      clearing: true
+      obstacle_range: 6.0
+      raytrace_range: 8.0
+      observation_persistence: 0.0     # Obstáculos desaparecem rápido (dinâmico)
+      #track_unknown_space: false 
+
+  inflation_layer:
+    inflation_radius: 0.2
+    cost_scaling_factor: 2.0
+
+#   footprint_clearing_enabled: true   # limpa células sob o robô para evitar rastros
+
+# local_costmap:
+#   global_frame: odom
+#   robot_base_frame: base_footprint
+#   update_frequency: 10.0          # Local mais responsivo (10 Hz)
+#   publish_frequency: 5.0
+#   transform_tolerance: 0.5
+#   resolution: 0.05
+
+#   # Janela do costmap local (3 m x 3 m para navegação local)
+#   width: 3.0
+#   height: 3.0
+#   rolling_window: true
+
+#   # Footprint igual ao global
+#   footprint: [[-1.50, -0.20], [-1.50, 0.20], [0.25, 0.20], [0.25, -0.20]]
+
+#   plugins:
+#     - {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
+#     - {name: inflation_layer,type: "costmap_2d::InflationLayer"}
+
+#   obstacle_layer:
+#     enabled: true
+#     observation_sources: laser_scan_sensor
+#     laser_scan_sensor:
+#       sensor_frame: base_laser_link
+#       data_type: LaserScan
+#       topic: base_scan
+#       marking: true
+#       clearing: true
+#       obstacle_range: 3.0
+#       raytrace_range: 3.5
+
+#   inflation_layer:
+#     enabled: true
+#     inflation_radius: 0.6         # Zona de segurança menor para navegação fina
+#     cost_scaling_factor: 3.0 

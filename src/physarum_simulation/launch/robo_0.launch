@@ -1,0 +1,14 @@
+ 
+ <launch>
+  <node name="physarum_node_robot_1"
+        pkg="physarum_simulation"
+        type="physarum_node.py"
+        output="screen">
+    <param name="robot_name" value="robot_0"/>
+    <param name="agent_count" value="2000"/>
+    <param name="width" value="100"/>
+    <param name="height" value="100"/>
+  </node>
+
+</launch>
+  

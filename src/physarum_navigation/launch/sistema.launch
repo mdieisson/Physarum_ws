@@ -1,0 +1,14 @@
+<launch>
+
+    <include file="$(find physarum_navigation)/launch/move_base.launch">
+      <arg name="robot_name" value="robot_2"/>
+    </include>
+
+
+    <include file="$(find physarum_navigation)/launch/move_base.launch">
+      <arg name="robot_name" value="robot_1"/>
+    </include>
+    <include file="$(find physarum_navigation)/launch/move_base.launch">
+      <arg name="robot_name" value="robot_0"/>
+    </include>
+</launch>

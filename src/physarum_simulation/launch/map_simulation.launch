@@ -1,0 +1,23 @@
+<launch>
+  <!-- Usar tempo simulado -->
+  <param name="/use_sim_time" value="true"/>
+
+  <!-- Iniciar o Stage -->
+  <node name="stage" pkg="stage_ros" type="stageros" args="$(find physarum_simulation)/worlds/map_sonar.world"/>
+
+  <!-- Iniciar o map_server com o arquivo map.yaml -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find physarum_simulation)/worlds/map.yaml" output="screen"/>
+  
+
+
+  <!-- Rodar o script map_to_odom.py -->
+  <node name="map_to_odom" pkg="physarum_simulation" type="maptoodom.py" output="screen"/>
+ 
+  
+  <!-- Lança o RViz com uma configuração específica -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find physarum_simulation)/rviz/rviz.rviz" output="screen"/>
+
+  <!-- Move Base de todos-->
+  <include file="$(find physarum_simulation)/launch/multi_robot_move_base.launch">
+  </include>
+</launch>

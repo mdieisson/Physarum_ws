@@ -1,0 +1,8 @@
+prefix=/home/dieisson/physarum_ws/install
+
+Name: physarum_simulation
+Description: Description of physarum_simulation
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: 

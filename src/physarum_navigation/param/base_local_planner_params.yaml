@@ -1,0 +1,25 @@
+TrajectoryPlannerROS:
+
+  # Configuração do robô (0.75m comprimento, 0.3m largura + carga em cima)
+  max_vel_x: 0.5            # velocidade máxima para frente
+  min_vel_x: -0.2           # velocidade mínima (recuo permitido)
+
+  max_vel_theta: 1.0        # rotação máxima (rad/s)
+  min_vel_theta: -1.0       # rotação mínima (rad/s)
+  min_in_place_vel_theta: 0.5
+
+  acc_lim_x: 0.6            # aceleração linear máxima (m/s²)
+  acc_lim_y: 0.0            # robô não holonômico
+  acc_lim_theta: 0.6        # aceleração angular máxima (rad/s²)
+
+  # Tolerâncias para considerar chegada
+  xy_goal_tolerance: 0.15   # distância para o destino (m)
+  yaw_goal_tolerance: 0.2   # tolerância de orientação (rad)
+
+  holonomic_robot: false    # diferencial, não lateral
+
+  # Simulação de trajetórias
+  sim_time: 1.2             # horizonte temporal para avaliar trajetórias (s)
+  vx_samples: 18            # amostras de velocidade linear
+  vtheta_samples: 20        # amostras de velocidade angular
+  sim_granularity: 0.05     # resolução da simulação (m)
