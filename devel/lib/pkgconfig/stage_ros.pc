@@ -1,8 +1,0 @@
-prefix=/home/dieisson/physarum_ws/devel
-
-Name: stage_ros
-Description: Description of stage_ros
-Version: 1.8.0
-Cflags: -I/home/dieisson/physarum_ws/devel/include
-Libs: -L${prefix}/lib 
-Requires: roscpp std_msgs message_runtime
