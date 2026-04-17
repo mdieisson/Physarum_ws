@@ -29,12 +29,12 @@
     <param name="width" value="100"/>
     <param name="height" value="100"/>
   </node>
-  <!-- <node name="controle"
+  <node name="controle"
         pkg="physarum_simulation"
         type="coletar_conectividade_global.py"
         output="screen">
         <param name="output_path" value="$(env HOME)/physarum_dados/sim_001.csv"/>
-  </node> -->
+  </node>
     <!-- <node name="controle2"
         pkg="physarum_simulation"
         type="robustez.py"

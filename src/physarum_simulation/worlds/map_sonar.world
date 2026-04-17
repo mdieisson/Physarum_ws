@@ -19,6 +19,12 @@ caminhao (name "r1" pose [ -7 -4.5 0 90]   laser(pose [ 0.0 0 -0.1 0 ]) color "b
 
 caminhao (name "r2" pose [ -7 -3 0 90 ]   laser(pose [ 0.0 0 -0.1 0 ]) color "green")
 
+#caminhao (name "r0" pose [ 4.5 -5.8 0 90 ]    color "red")
+
+#caminhao (name "r1" pose [ 2.4  -3.2 0 90]    color "blue")
+
+#caminhao (name "r2" pose [ 6.5 -3.1 0 90 ]    color "green")
+
 containertotal(pose [ -3.7 1 0 90 ])
 containertotal(pose [ -3.7 -1.76 0 90 ])
 containertotal(pose [ -3.7 -4.46 0 90 ])

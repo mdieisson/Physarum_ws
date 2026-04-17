@@ -11,6 +11,7 @@ from physarum.mass_update import MassSystem
 from physarum.lifecycle import LifecycleSystem
 from physarum.visualization import VisualizationSystem
 
+
 import numpy as np
 from nav_msgs.msg import OccupancyGrid
 import networkx as nx
@@ -21,10 +22,16 @@ class PhysarumNode:
         rospy.init_node('physarum_node_', anonymous=True)
 
         self.robot_name = rospy.get_param("~robot_name", "robot_2")
-        self.agent_count = rospy.get_param("~agent_count", 2000)
+        self.agent_count = rospy.get_param("~agent_count", 120)
+        self.algorithm_type = rospy.get_param("~algorithm", "physarum")
+
+    
+
+
         self.other_robots = [f"robot_{i}" for i in range(0, 4) if f"robot_{i}" != self.robot_name]
         rospy.Subscriber('/map', OccupancyGrid, self.map_callback)
-        self.connection_pub = rospy.Publisher(f'{self.robot_name}/physarum/connections', String, queue_size=10)                                                                                                                               
+        self.connection_pub = rospy.Publisher(f'{self.robot_name}/physarum/connections', String, queue_size=10)    
+                                                                                                                                   
         
         self.width = 100
         self.height = 100
@@ -35,6 +42,9 @@ class PhysarumNode:
         self.depositor = DepositionSystem(base_amount=0.05)
         self.mass_updater = MassSystem(blur_sigma=0.0)
         self.lifecycle = LifecycleSystem(hunger_limit=10, reproduction_chance=0.1)
+
+        self.log_file = open(f"/tmp/{self.robot_name}_complexity_log.csv", "w")
+        self.log_file.write("step,num_robots,potential_links,physarum_links,avg_signal_strength\n")
         
         self.other_poses = {}
         self.my_pose = {}
@@ -43,11 +53,39 @@ class PhysarumNode:
 
         self.vis = VisualizationSystem(self.env, self.agents, self.robot_name)
 
+
+
         rospy.Subscriber(f"/{self.robot_name}/odom", Odometry, self.odom_callback)
         for other in self.other_robots:
             rospy.Subscriber(f"/{other}/odom", Odometry, self.make_other_callback(other))
 
+    def count_active_links(self, centers, threshold=0.2):
+        active_count = 0
+        total_signal = 0
+        count = 0
+        
+        own_id = self.robot_name
+        if own_id not in centers: return 0, 0
 
+        for other_id, other_pos in centers.items():
+            if other_id == own_id: continue
+            
+            # Simula a verificação da trilha (lógica similar ao get_best_trail_connection)
+            try:
+                cost_map = np.max(self.env.stable_trail_map) - self.env.stable_trail_map + 1e-6
+                path, cost = route_through_array(cost_map, centers[own_id], other_pos, fully_connected=True)
+                mean_trail = np.mean([self.env.stable_trail_map[y, x] for y, x in path])
+                
+                total_signal += mean_trail
+                count += 1
+                
+                if mean_trail > threshold: # Se a trilha é forte o suficiente para comunicar
+                    active_count += 1
+            except:
+                continue
+                
+        avg_signal = (total_signal / count) if count > 0 else 0
+        return active_count, avg_signal
     def map_callback(self, msg):
             width = msg.info.width
             height = msg.info.height
@@ -106,9 +144,12 @@ class PhysarumNode:
 
             try:
                 # A estratégia do Physarum é seguir trilhas reforçadas — por isso invertemos os valores:
-                cost_map = np.max(self.env.stable_trail_map) - self.env.stable_trail_map + 1e-6
+                cost_map = np.max(self.env.trail_map) - self.env.trail_map + 1e-6
+      
                 path, cost = route_through_array(cost_map, centers[own_id], other_pos, fully_connected=True)
-                mean_trail = np.mean([self.env.stable_trail_map[y, x] for y, x in path])
+             
+                mean_trail = np.mean([cost_map[y, x] for y, x in path])
+                
                 if mean_trail > best_score:
                     best_score = mean_trail
                     best_conn = (own_id, other_id)
@@ -116,6 +157,51 @@ class PhysarumNode:
                 continue  # Se não existe caminho, ignora
 
         return best_conn
+    # def get_best_trail_connection(self, centers, threshold=1):
+    #     """
+    #     Retorna a melhor conexão, mas APENAS se a densidade do tubo (trilha)
+    #     for maior que o threshold. Evita conexões 'fantasmas' em linha reta.
+    #     """
+    #     own_id = self.robot_name
+    #     if own_id not in centers:
+    #         return None
+
+    #     best_conn = None
+    #     best_score = -np.inf
+
+    #     for other_id, other_pos in centers.items():
+    #         if other_id == own_id:
+    #             continue
+
+    #         try:
+    #             # Inverte o mapa: Caminho de menor custo = Caminho de maior trilha
+    #             # Adiciona 1e-6 para evitar log(0) ou divisão por zero em cálculos internos
+    #             max_val = np.max(self.env.mass_map)
+    #             print(max_val)
+    #             cost_map = max_val - self.env.mass_map + 1e-6
+                
+                
+    #             # Encontra o caminho geodésico seguindo os tubos do Physarum
+    #             path, cost = route_through_array(cost_map, centers[own_id], other_pos, fully_connected=True)
+                
+    #             # Calcula a força média do tubo ao longo desse caminho
+    #             path_values = [self.env.mass_map[y, x] for y, x in path]
+    #             mean_trail = np.mean(path_values)
+    #             if mean_trail < threshold:
+    #                 continue
+    #             total_trail_volume = np.sum(path_values)
+
+    #             # --- A MUDANÇA ESTÁ AQUI ---
+    #             # Só aceita se a média for maior que o limiar (tubo formado)
+    #             # E se for a melhor conexão encontrada até agora
+    #             if total_trail_volume > best_score:
+    #                 best_score = mean_trail
+    #                 best_conn = (own_id, other_id)
+                    
+    #         except Exception:
+    #             continue  # Se não existe caminho físico, ignora
+
+    #     return best_conn
 
 
 
@@ -230,17 +316,32 @@ class PhysarumNode:
                 ag.role = 'follower' if i < top_n else 'explorer'
 
         centers = self.get_robot_centers()
+        # Cálculo para o Revisor
+        num_neighbors = len(centers) - 1
+        # Numa malha tradicional (Full Mesh), você conectaria com todos os vizinhos
+        potential_links = max(0, num_neighbors) 
+        
+        # No Physarum, conectamos apenas onde há trilha forte
+        active_physarum, avg_sig = self.count_active_links(centers, threshold=0.2)
+        if step % 10 == 0:
+            self.log_file.write(f"{step},{num_neighbors+1},{potential_links},{active_physarum},{avg_sig:.4f}\n")
+            self.log_file.flush()
+
+
+
+
         G = self.build_trail_graph()
         connections = self.get_best_trail_connection(centers)
+        print(connections)
         if connections:
             self.publish_connections(connections[1])
         else:
            self.publish_connections("") 
 
-        #self.vis.draw_connections(centers, connections)
-        self.vis.fig.canvas.draw()
+        # self.vis.draw_connections(centers, connections)
+        #self.vis.fig.canvas.draw()
 
-        self.vis.update(self.agents, step=step)
+        #self.vis.update(self.agents, step=step)
     
 
     def run(self):

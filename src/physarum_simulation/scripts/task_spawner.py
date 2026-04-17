@@ -8,7 +8,7 @@ from stage_ros.srv import GetModelPose
 # ==========================
 # CONFIGURAÇÃO
 # ==========================
-N = 10  # número de containers a spawnar (ajustado para 15)
+N = 3  # número de containers a spawnar (ajustado para 15)
 container_prefix = "caixa_0_"
 robots = ["robot_0","robot_1","robot_2"]  # lista de robôs
 
@@ -16,9 +16,9 @@ robots = ["robot_0","robot_1","robot_2"]  # lista de robôs
 # Dicionário que define quantas tarefas cada robô receberá.
 # A ordem de atribuição será sequencial.
 distribuicao_tarefas_por_robo = {
-    "robot_0": 10,
+    "robot_0": 0,
     "robot_1": 0,
-    "robot_2": 0
+    "robot_2": 3
 }
 # Verifique se o total de tarefas corresponde a N
 if sum(distribuicao_tarefas_por_robo.values()) != N:

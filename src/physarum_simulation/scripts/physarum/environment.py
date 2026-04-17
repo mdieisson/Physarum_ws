@@ -51,9 +51,12 @@ class Environment:
 
     def update_food(self):
         self.food_map.fill(0)
+        combined_map = 0.0
         for robot_map in self.food_maps_by_robot.values():
             blurred = gaussian_filter(robot_map, sigma=1.0)
-            self.food_map += blurred * 0.99
+            #self.food_map += blurred * 0.99
+            combined_map = np.maximum(combined_map, blurred * 0.99)
+        self.food_map = combined_map
 
     def sense(self, x, y):
         if 0 <= int(x) < self.height and 0 <= int(y) < self.width:

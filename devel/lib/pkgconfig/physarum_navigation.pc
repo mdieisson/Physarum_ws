@@ -1,0 +1,8 @@
+prefix=/home/dieisson/physarum_ws/devel
+
+Name: physarum_navigation
+Description: Description of physarum_navigation
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
